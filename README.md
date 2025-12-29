@@ -55,7 +55,8 @@ python check_main.py
 **2. Create a json file** 
 
 This can be done manually by user to add the json file, 
-```go to the main.json file and edit the files for the content, the basic keys remain the same, just update the values, also all values are required, to run a new project change parameters and re run the entire procedure with changed json   
+```
+go to the main.json file and edit the files for the content, the basic keys remain the same, just update the values, also all values are required, to run a new project change parameters and re run the entire procedure with changed json   
 ```
 
 or it can be done with llm, please put your key in the env file under the llm_api_key 
@@ -160,34 +161,34 @@ ready to go
 # Files descriptions:
 * Backend
 
-> '.env'-> contains env for file 
+> **'.env'**-> contains env for file 
 
 
-> 'check_main.py'-> 1st step implementation checks the main.json validate and create project folder with basic components schemas
+> **'check_main.py'**-> 1st step implementation checks the main.json validate and create project folder with basic components schemas
  
-> 'config_system_prompt.py' -> contains the system prompt for getting the configuration of key value of components for code given.
+> **'config_system_prompt.py'** -> contains the system prompt for getting the configuration of key value of components for code given.
 
-> 'create_graph.py' -> create the graph with nodes and edges
+> **'create_graph.py'** -> create the graph with nodes and edges
 
-> 'create_workflow.py' ->2nd step create the key value pairs for logging with llm+validate, else validate only
+> **'create_workflow.py'** ->2nd step create the key value pairs for logging with llm+validate, else validate only
 
->  'Demo' -> Demo code just return dummy values
+>  **'Demo'** -> Demo code just return dummy values
  
->  'democ_code' -> Democ code with implememnntation for llm call of key value pair s generation
+>  **'democ_code'** -> Democ code with implememnntation for llm call of key value pair s generation
 
-> 'flask_server_main.py' -> main server for ui acces andlogging, does the reasoning with llm as well
+> **'flask_server_main.py'** -> main server for ui acces andlogging, does the reasoning with llm as well
  
-> 'llm_call.py' -> implemetation of gemini api but request can be automated to suit all paltforms but since i dint have keys of ther platform so this.
+> **'llm_call.py'** -> implemetation of gemini api but request can be automated to suit all paltforms but since i dint have keys of ther platform so this.
 
-> 'main.json'-> json file for compoennts to be included descirpiton
+> **'main.json'**-> json file for compoennts to be included descirpiton
 
-> 'main_data_file.json' -> keeps track of all projects main.json file
+> **'main_data_file.json'** -> keeps track of all projects main.json file
  
-> 'reasoning_system_prompt.py'-> for getting reasoning
+> **'reasoning_system_prompt.py**'-> for getting reasoning
 
-> 'requirements.txt' > requirements file
+> **'requirements.txt'** > requirements file
 
-> 'check_code.py' > check the code if it does really does logging mean sending requets to flask server with the required keys as per components schema
+> **'check_code.py'** > check the code if it does really does logging mean sending requets to flask server with the required keys as per components schema
 
 
 * Frontend
