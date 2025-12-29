@@ -54,7 +54,7 @@ python check_main.py
 
 **2. Create a json file** 
 
-This can be done manually by user to add the json file, 
+This can be done **manually by user** to add the json file, 
 ```
 go to the main.json file and edit the files for the content, the basic keys remain the same, just update the values, also all values are required, to run a new project change parameters and re run the entire procedure with changed json   
 ```
@@ -193,7 +193,7 @@ ready to go
 
 * Frontend
 
->frontend.HTML -> UI created with JS fron function and logic handling, html for basic layour with cssfor style, add listeners, used fetch for request reposnse etc 
+>**'frontend.HTML'** -> UI created with JS fron function and logic handling, html for basic layour with cssfor style, add listeners, used fetch for request reposnse etc 
 
 # Logic and tradeoffs
 
@@ -203,30 +203,30 @@ This section contains core conception, thinking, motivation, origin idea, why xy
 When I thought of solving the probleM I thought we need something to find out the flow of business lofic means how componenst are executed how they interact etc, once that is known know where the main logic or evaluation is done meaning were main code gets executed and how decisions are made in that function, once that is known next to log these decisions,
 so my pipeline focuses on the same.
 
-1.Create a json file -> this is where the develope can define his/her components involved, what is the system about the components
+1.**Create a json file** -> this is where the develope can define his/her components involved, what is the system about the components
 
 
-2. Create another json file -> based on the above json create a new json file whcih has key value pairs that are to be logged, eg : input:{keyword:"",limit:""}, this can be done manually base like i/o metadat tags are already created project specific tagss or keys need to be updated can be done manually or by using llm, just set create_llm_config : yes in main.json above and this will be automated, also here a pictoric workflow is created based on workflow description from above 
+2. **Create another json file** -> based on the above json create a new json file whcih has key value pairs that are to be logged, eg : input:{keyword:"",limit:""}, this can be done manually base like i/o metadat tags are already created project specific tagss or keys need to be updated can be done manually or by using llm, just set create_llm_config : yes in main.json above and this will be automated, also here a pictoric workflow is created based on workflow description from above 
 
 
 3. There is a need to check if actually logs are made, meaning if developer/autmated logs are made to code othervise nothing will be logged, so that too in check in original code by developer. 
 
 
-4. Next the flask server is satrted , this flask server is actually the one that logs, Why? because paltform independent logging now may the application be in any langauage vue js node js react python etc with simple reuest and resposne the messages are logged to indivudal project folder and componenets
+4. Next the **flask server** is started , this flask server is actually the one that logs, Why? because platform independent logging now may the application be in any language vue js node js react python etc with simple request and response the messages are logged to individual project folder and components
 
 
-5. To vizualize this an ui is made where query+all components can be seen or Query+specific ocmponent can be seen 
+5. To vizualize this an ui is made where **Query+all components** can be seen or **Query+specific component** can be seen 
 
 
 
 # What could done :
 
-* Prompt refining for testing for diverse cases for key value pairs, I tried few but more can be done 
-* Using technology based on the requirements like latency etc, thisis basic for demo 
-* I tried somewhere in code check istead of checking in whole code if key value logging is proeprly done can locate where localhost:500 or basically flask server call is made and check first and last 10 lines fro mthat poitn but the problem is sometimes some absraction ofc ocde may be present so wont work ,reduces memory and time if too long code is used. 
+* **Prompt refining** for testing for diverse cases for key value pairs, I tried few but more can be done 
+* Using technology based on the requirements like **latency etc**, thisis basic for demo 
+* I tried somewhere in code check instead of checking in whole code if key value logging is properly done can locate where localhost:5000 or basically flask server call is made and check first and last 10 lines from that point but the problem is sometimes some abstraction of code may be present so wont work ,reduces memory and time if too long code is used. 
 * circulatory log in case json get big, or using nosql schema less database like key values types
 * Adding support for uI so instaed of just component + query ican access, component only all queries backend has support for this noly to include in UI , some workflow rending nicely like floating image to refer, on right hand isde or left etc etc
-* We can add logging in code with llms, only costly like llm willl put logging dynacmically reduces dveeloper work but again such will costly though can be optimized in terms of token and what to send 
+* We can add logging in code with llms, only costly like llm will put logging dynacmically reduces develoepr work but again such will costly though can be optimized in terms of token and what to send 
 
 # Trade offs
 
