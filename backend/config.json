@@ -1,0 +1,165 @@
+{
+"step_1":
+{
+  "input": {
+    "step": null,
+    "product_title": null,
+    "category": null
+  },
+  "output": {
+    "keywords": null,
+    "model": null
+  },
+  "metadata": {
+    "request_id": null,
+    "timestamp": null
+  },
+"reasoning":""},
+"step_2":
+{
+  "input": {
+    "keyword": null,
+    "limit": null
+  },
+  "output": {
+    "total_results": null,
+    "candidates_fetched": null,
+    "candidates": [
+      {
+        "asin": null,
+        "title": null,
+        "price": null,
+        "rating": null,
+        "reviews": null
+      }
+    ]
+  },
+  "reasoning": null
+
+},
+"step_3":
+{"input":{
+    "candidates_count": null,
+    "reference_product": {
+      "asin": null,
+      "title": null,
+      "price": null,
+      "rating": null,
+      "reviews": null
+    }
+  },"output": {
+    "total_evaluated": null,
+    "passed": null,
+    "failed": null
+  },"metdata":{"filters_applied": {
+    "price_range": {
+      "min": null,
+      "max": null,
+      "rule": null
+    },
+    "min_rating": {
+      "value": null,
+      "rule": null
+    },
+    "min_reviews": {
+      "value": null,
+      "rule": null
+    }
+  },
+  "evaluations": [
+    {
+      "asin": null,
+      "title": null,
+      "metrics": {
+        "price": null,
+        "rating": null,
+        "reviews": null
+      },
+      "filter_results": {
+        "price_range": {
+          "passed": null,
+          "detail": null
+        },
+        "min_rating": {
+          "passed": null,
+          "detail": null
+        },
+        "min_reviews": {
+          "passed": null,
+          "detail": null
+        }
+      },
+      "qualified": null
+    }
+  ]},"reasoning":null},
+"step_4":
+{"input":{
+    "candidates_count": null,
+    "reference_product": {
+      "asin": null,
+      "title": null,
+      "category": null
+    },
+    "model": null
+  },"output":{
+    "total_evaluated": null,
+    "confirmed_competitors": null,
+    "false_positives_removed": null
+  },"metdata":{"prompt_template": null,
+  "evaluations": [
+    {
+      "asin": null,
+      "title": null,
+      "is_competitor": null,
+      "confidence": null
+    }
+  ]},"reasoning":null},
+"step_5":
+{"input":{
+    "candidates_count": null,
+    "reference_product": {
+      "asin": null,
+      "title": null,
+      "price": null,
+      "rating": null,
+      "reviews": null
+    }
+  },"output":{
+    "selected_competitor": {
+      "asin": null,
+      "title": null,
+      "price": null,
+      "rating": null,
+      "reviews": null
+    }
+  },"metdata":{"ranking_criteria": {
+    "primary": null,
+    "secondary": null,
+    "tertiary": null
+  },
+  "ranked_candidates": [
+    {
+      "rank": null,
+      "asin": null,
+      "title": null,
+      "metrics": {
+        "price": null,
+        "rating": null,
+        "reviews": null
+      },
+      "score_breakdown": {
+        "review_count_score": null,
+        "rating_score": null,
+        "price_proximity_score": null
+      },
+      "total_score": null
+    }
+  ],
+  "selection": {
+    "asin": null,
+    "title": null,
+    "reason": null
+  }}
+,"reasoning":null}
+
+}

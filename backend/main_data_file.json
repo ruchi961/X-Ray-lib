@@ -1,0 +1,142 @@
+{
+    "projects": [
+        {
+            "project_id": 2,
+            "project_name": "Ranking_response",
+            "components": [
+                {
+                    "id": "step_1",
+                    "name": "keyword_generation",
+                    "filename": "step1.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "generate_keyword"
+                },
+                {
+                    "id": "step_2",
+                    "name": "candidate_search",
+                    "filename": "step2.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "candidate_search"
+                },
+                {
+                    "id": "step_3",
+                    "name": "apply_filters",
+                    "filename": "step3.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "apply_filters"
+                },
+                {
+                    "id": "step_4",
+                    "name": "llm_relevance_evaluation",
+                    "filename": "step4.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "llm_relevance_evaluation"
+                },
+                {
+                    "id": "step_5",
+                    "name": "rank_and_select",
+                    "filename": "step5.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "rank_and_select"
+                }
+            ],
+            "components_layouts": [
+                {
+                    "id": "step_1",
+                    "next": [
+                        "step_2"
+                    ]
+                },
+                {
+                    "id": "step_2",
+                    "next": [
+                        "step_3"
+                    ]
+                },
+                {
+                    "id": "step_3",
+                    "next": [
+                        "step_4"
+                    ]
+                },
+                {
+                    "id": "step_4",
+                    "next": [
+                        "step_5"
+                    ]
+                }
+            ],
+            "create_config_llm": "yes",
+            "create_code_llm": "yes"
+        },
+        {
+            "project_id": 1,
+            "project_name": "Ranking_response_two",
+            "components": [
+                {
+                    "id": "step_1",
+                    "name": "keyword_generation",
+                    "filename": "step1.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "generate_keyword"
+                },
+                {
+                    "id": "step_2",
+                    "name": "candidate_search",
+                    "filename": "step2.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "candidate_search"
+                },
+                {
+                    "id": "step_3",
+                    "name": "apply_filters",
+                    "filename": "step3.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "apply_filters"
+                },
+                {
+                    "id": "step_4",
+                    "name": "llm_relevance_evaluation",
+                    "filename": "step4.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "llm_relevance_evaluation"
+                },
+                {
+                    "id": "step_5",
+                    "name": "rank_and_select",
+                    "filename": "step5.py",
+                    "path": "C:\\Users\\Admin\\Downloads\\vishnudeva'\\backend\\Demo",
+                    "function_name": "rank_and_select"
+                }
+            ],
+            "components_layouts": [
+                {
+                    "id": "step_1",
+                    "next": [
+                        "step_2"
+                    ]
+                },
+                {
+                    "id": "step_2",
+                    "next": [
+                        "step_3"
+                    ]
+                },
+                {
+                    "id": "step_3",
+                    "next": [
+                        "step_4"
+                    ]
+                },
+                {
+                    "id": "step_4",
+                    "next": [
+                        "step_5"
+                    ]
+                }
+            ],
+            "create_config_llm": "yes",
+            "create_code_llm": "yes"
+        }
+    ]
+}

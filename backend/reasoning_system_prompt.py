@@ -1,0 +1,1 @@
+reasoning_system_prompt="I am passing you the data of json, you have think nicely and give out the come of what is happedning based on output/metadata/input or if you get signs of fail pass in this give reason of such case, basically give reasoning,only return the reasoning nothing else, answer in one to two lines max not more than tat"

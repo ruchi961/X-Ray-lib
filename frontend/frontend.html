@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Module Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: #e8f5e9;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 10%;
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            color: white;
+            padding: 20px 10px;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h3 {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #c8e6c9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            border: 2px solid transparent;
+        }
+
+        .project-item:hover {
+            background: #43a047;
+            transform: translateX(5px);
+            border-color: #81c784;
+        }
+
+        .project-item.active {
+            background: #43a047;
+            font-weight: bold;
+            border-color: #81c784;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .workflow-sidebar {
+            width: 20%;
+            background: linear-gradient(135deg, #388e3c 0%, #43a047 100%);
+            color: white;
+            padding: 20px 15px;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .workflow-sidebar h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #c8e6c9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .module-button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .module-button:hover {
+            background: #66bb6a;
+            transform: scale(1.05);
+            border-color: #a5d6a7;
+        }
+
+        .module-button.active {
+            background: #66bb6a;
+            font-weight: bold;
+            border-color: #a5d6a7;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .get-all-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            color: white;
+            border: 3px solid #81c784;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .get-all-button:hover {
+            background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .component-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+            margin-bottom: 20px;
+            border-left: 4px solid #66bb6a;
+        }
+
+        .component-section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            color: white;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-area {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #f1f8e9;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+            border-bottom: 4px solid #43a047;
+        }
+
+        .controls label {
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+
+        .controls input, .controls select {
+            padding: 10px;
+            border: 2px solid #81c784;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-right: 10px;
+            background: white;
+            color: #1b5e20;
+            min-width: 150px;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: linear-gradient(135deg, #388e3c 0%, #43a047 100%);
+            transform: translateY(-2px);
+        }
+
+        .data-layout {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            gap: 20px;
+        }
+
+        .top-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .input-section, .output-section {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        }
+
+        .input-section {
+            border-left: 4px solid #2e7d32;
+        }
+
+        .output-section {
+            border-left: 4px solid #43a047;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #81c784;
+        }
+
+        .input-section .section-title {
+            color: #2e7d32;
+        }
+
+        .output-section .section-title {
+            color: #43a047;
+        }
+
+        .metadata-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+            border-left: 4px solid #66bb6a;
+        }
+
+        .metadata-section .section-title {
+            color: #1b5e20;
+        }
+
+        .key-value-pair {
+            display: flex;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: #f1f8e9;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .key-value-pair:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+
+        .key {
+            font-weight: bold;
+            color: #2e7d32;
+            min-width: 180px;
+        }
+
+        .value {
+            color: #33691e;
+            flex: 1;
+            word-break: break-word;
+        }
+
+        .nested-level-0 { border-left: 3px solid #66bb6a; }
+        .nested-level-1 { border-left: 3px solid #81c784; }
+        .nested-level-2 { border-left: 3px solid #a5d6a7; }
+        .nested-level-3 { border-left: 3px solid #c8e6c9; }
+        .nested-level-4 { border-left: 3px solid #e8f5e9; }
+        
+        .key-level-0 { color: #1b5e20; font-weight: bold; }
+        .key-level-1 { color: #2e7d32; font-weight: bold; }
+        .key-level-2 { color: #388e3c; font-weight: bold; }
+        .key-level-3 { color: #43a047; font-weight: bold; }
+        .key-level-4 { color: #66bb6a; font-weight: bold; }
+        
+        .array-item {
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: rgba(129, 199, 132, 0.1);
+            border-radius: 4px;
+        }
+        
+        .array-index {
+            font-family: 'Courier New', monospace;
+            color: #1565c0;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .inline-list {
+            font-family: 'Courier New', monospace;
+            color: #6a1b9a;
+            background: #f3e5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .reasoning-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+            border-left: 4px solid #7cb342;
+        }
+
+        .reasoning-section .section-title {
+            color: #558b2f;
+        }
+
+        .reasoning-text {
+            line-height: 1.8;
+            color: #33691e;
+            font-size: 14px;
+            padding: 15px;
+            background: #f1f8e9;
+            border-radius: 6px;
+        }
+
+        .image-sidebar {
+            width: 10%;
+            background: #f1f8e9;
+            padding: 10px;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #2e7d32;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .image-container {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+            border: 2px solid #81c784;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .workflow-button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .workflow-button:hover {
+            background: linear-gradient(135deg, #388e3c 0%, #43a047 100%);
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #558b2f;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #2e7d32;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #66bb6a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #43a047;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <h3>Projects</h3>
+            <div id="projects-container"></div>
+        </div>
+
+        <div class="workflow-sidebar">
+            <h3>Components</h3>
+            <button class="get-all-button" id="get-all-btn">
+                📊 Get All Data
+            </button>
+            <div id="modules-container">
+                <div class="empty-state">
+                    <p>Select a project first</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="controls">
+                <label>Query ID:</label>
+                <input type="text" id="query-id-input" placeholder="Enter Query ID" />
+                <button onclick="loadData()">Load Component Data</button>
+            </div>
+
+            <div class="data-layout" id="data-layout">
+                <div class="empty-state">
+                    <h3>No Data Loaded</h3>
+                    <p>Select a project, component, and enter Query ID, then click "Load Component Data"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-sidebar">
+            <div class="sidebar-section-title">Workflow</div>
+            <button class="workflow-button" id="load-workflow-btn">Load Workflow</button>
+            <div id="image-container">
+                <div class="empty-state" style="padding: 20px 10px; font-size: 11px;">
+                    <p>Click button to load workflow diagram</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000';
+
+        const state = {
+            projects: [],
+            selectedProject: null,
+            selectedComponent: null,
+            queryId: null,
+            displayedData: null,
+            fullDataMode: false
+        };
+
+        function renderValue(value, level = 0, parentKey = '') {
+            const maxLevel = 4;
+            const colorLevel = Math.min(level, maxLevel);
+            const indent = level * 15;
+            
+            if (value === null || value === undefined) {
+                return `<span class="value" style="color: #999; font-style: italic;">null</span>`;
+            }
+            
+            if (Array.isArray(value)) {
+                if (value.length === 0) {
+                    return `<span class="inline-list">[]</span>`;
+                }
+                
+                const allPrimitives = value.every(item => 
+                    typeof item !== 'object' || item === null
+                );
+                
+                if (allPrimitives) {
+                    const items = value.map(v => {
+                        if (typeof v === 'string') return `"${v}"`;
+                        if (v === null) return 'null';
+                        return v;
+                    }).join(', ');
+                    return `<span class="inline-list">[${items}]</span>`;
+                }
+                
+                const hasObjects = value.some(item => 
+                    typeof item === 'object' && item !== null && !Array.isArray(item)
+                );
+                
+                if (hasObjects) {
+                    return `
+                        <div class="nested-array" style="margin-left: ${indent}px; margin-top: 8px;">
+                            ${value.map((item, index) => {
+                                if (typeof item === 'object' && item !== null) {
+                                    return `
+                                        <div class="array-item nested-level-${colorLevel}" style="border-left-color: ${getBorderColor(colorLevel)};">
+                                            <div class="array-index">[${index}]</div>
+                                            ${renderValue(item, level + 1, `${parentKey}[${index}]`)}
+                                        </div>
+                                    `;
+                                } else {
+                                    return `
+                                        <div class="array-item">
+                                            <span class="array-index">[${index}]</span>
+                                            ${renderValue(item, level, `${parentKey}[${index}]`)}
+                                        </div>
+                                    `;
+                                }
+                            }).join('')}
+                        </div>
+                    `;
+                } else {
+                    const itemsHtml = value.map((item, index) => `
+                        <div style="margin: 4px 0;">
+                            <span class="array-index">[${index}]</span>
+                            ${renderValue(item, level + 1, `${parentKey}[${index}]`)}
+                        </div>
+                    `).join('');
+                    return `<div style="margin-left: ${indent}px;">${itemsHtml}</div>`;
+                }
+            }
+            
+            if (typeof value === 'object') {
+                const entries = Object.entries(value);
+                if (entries.length === 0) {
+                    return `<span class="inline-list">{}</span>`;
+                }
+                
+                return `
+                    <div class="nested-object nested-level-${colorLevel}" style="margin-left: ${indent}px; padding-left: 15px; border-left: 3px solid ${getBorderColor(colorLevel)};">
+                        ${entries.map(([key, val]) => {
+                            const isComplex = typeof val === 'object' && val !== null;
+                            const keyClass = `key-level-${colorLevel}`;
+                            
+                            if (isComplex) {
+                                return `
+                                    <div style="margin: 8px 0;">
+                                        <div class="key-value-pair">
+                                            <span class="key ${keyClass}">${key}:</span>
+                                        </div>
+                                        ${renderValue(val, level + 1, `${parentKey}.${key}`)}
+                                    </div>
+                                `;
+                            } else {
+                                return `
+                                    <div class="key-value-pair" style="margin: 5px 0;">
+                                        <span class="key ${keyClass}">${key}:</span>
+                                        ${renderValue(val, level, `${parentKey}.${key}`)}
+                                    </div>
+                                `;
+                            }
+                        }).join('')}
+                    </div>
+                `;
+            }
+            
+            if (typeof value === 'string') {
+                return `<span class="value" style="color: #33691e;">"${value}"</span>`;
+            }
+            if (typeof value === 'boolean') {
+                return `<span class="value" style="color: #1565c0; font-weight: bold;">${value}</span>`;
+            }
+            if (typeof value === 'number') {
+                return `<span class="value" style="color: #6a1b9a; font-weight: bold;">${value}</span>`;
+            }
+            
+            return `<span class="value">${value}</span>`;
+        }
+        
+        function getBorderColor(level) {
+            const colors = ['#2e7d32', '#43a047', '#66bb6a', '#81c784', '#a5d6a7'];
+            return colors[Math.min(level, colors.length - 1)];
+        }
+        
+        function renderSection(data, sectionName) {
+            if (!data) {
+                return `<p style="color: #999; font-style: italic;">No ${sectionName} data</p>`;
+            }
+            
+            if (typeof data === 'object' && !Array.isArray(data)) {
+                return Object.entries(data).map(([key, value]) => {
+                    const isComplex = typeof value === 'object' && value !== null;
+                    return `
+                        <div style="margin-bottom: 12px;">
+                            ${isComplex ? `
+                                <div class="key-value-pair">
+                                    <span class="key key-level-0">${key}:</span>
+                                </div>
+                                ${renderValue(value, 1)}
+                            ` : `
+                                <div class="key-value-pair">
+                                    <span class="key key-level-0">${key}:</span>
+                                    ${renderValue(value, 0)}
+                                </div>
+                            `}
+                        </div>
+                    `;
+                }).join('');
+            } else if (Array.isArray(data)) {
+                return renderValue(data, 0);
+            } else {
+                return `<div class="value">${data}</div>`;
+            }
+        }
+
+        async function fetchProjects() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/projects`);
+                if (!response.ok) throw new Error('Failed to fetch projects');
+                const data = await response.json();
+                state.projects = data.projects || [];
+                console.log(data);
+                renderProjects();
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+                showError('Failed to load projects. Make sure the Flask server is running on port 5000.');
+            }
+        }
+
+        async function fetchComponents(projectName) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/components`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ project: projectName })
+                });
+                if (!response.ok) throw new Error('Failed to fetch components');
+                const data = await response.json();
+                console.log(data);
+                return data.components || [];
+            } catch (error) {
+                console.error('Error fetching components:', error);
+                showError('Failed to load components');
+                return [];
+            }
+        }
+
+        async function fetchComponentData(project, component, queryId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/get_component_data`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        project: project,
+                        component: component,
+                        query_id: queryId
+                    })
+                });
+                if (!response.ok) throw new Error('Failed to fetch component data');
+                const data = await response.json();
+                state.displayedData = data;
+                state.fullDataMode = false;
+                renderDataDisplay();
+            } catch (error) {
+                console.error('Error fetching component data:', error);
+                showError('Failed to load component data. Please check if the query ID exists.');
+            }
+        }
+
+        async function fetchFullData(project, queryId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/full_data`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        project: project,
+                        query_id: queryId
+                    })
+                });
+                if (!response.ok) throw new Error('Failed to fetch full data');
+                const data = await response.json();
+                state.displayedData = data;
+                state.fullDataMode = true;
+                renderDataDisplay();
+            } catch (error) {
+                console.error('Error fetching full data:', error);
+                showError('Failed to load full data. Please check if the query ID exists.');
+            }
+        }
+
+        async function fetchWorkflow(project) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/workflow`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        project: project
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    console.error('Workflow error:', data);
+                    showWorkflowError(data.error || 'Failed to load workflow');
+                    return;
+                }
+                
+                if (data.workflow_image) {
+                    displayWorkflow(data.workflow_image);
+                } else {
+                    showWorkflowError('No workflow image in response');
+                }
+            } catch (error) {
+                console.error('Error fetching workflow:', error);
+                showWorkflowError('Failed to load workflow image.');
+            }
+        }
+
+        function displayWorkflow(imageData) {
+            const container = document.getElementById('image-container');
+            container.innerHTML = `
+                <div class="image-container">
+                    <img src="${imageData}" 
+                         alt="Workflow Diagram" 
+                         onerror="this.parentElement.innerHTML='<p style=\\'color: #c62828; text-align: center; font-size: 11px;\\'>Failed to load image</p>'"
+                    />
+                </div>
+            `;
+        }
+
+        function showWorkflowError(message) {
+            const container = document.getElementById('image-container');
+            container.innerHTML = `
+                <div style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 6px; font-size: 11px; text-align: center;">
+                    ${message}
+                </div>
+            `;
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('projects-container');
+            container.innerHTML = state.projects.map(project => `
+                <div class="project-item ${state.selectedProject === project ? 'active' : ''}" 
+                     onclick="selectProject('${project}')">
+                    ${project}
+                </div>
+            `).join('');
+        }
+
+        async function renderComponents() {
+            const container = document.getElementById('modules-container');
+            if (!state.selectedProject) {
+                container.innerHTML = '<div class="empty-state"><p>Select a project first</p></div>';
+                return;
+            }
+
+            const components = await fetchComponents(state.selectedProject);
+            if (components.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No components found</p></div>';
+                return;
+            }
+
+            container.innerHTML = components.map(component => `
+                <button class="module-button ${state.selectedComponent === component ? 'active' : ''}"
+                        onclick="selectComponent('${component}')">
+                    ${component}
+                </button>
+            `).join('');
+        }
+
+        function renderDataDisplay() {
+            const container = document.getElementById('data-layout');
+            if (!state.displayedData) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No Data Loaded</h3>
+                        <p>Select a project, component, and enter Query ID, then click "Load Component Data"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const data = state.displayedData;
+console.log(data)
+            // If in full data mode, render all components
+            if (state.fullDataMode) {
+                const componentsHtml = Object.entries(data).map(([componentName, componentData]) => {
+                    const inputHtml = `
+                        <div class="input-section">
+                            <div class="section-title">📥 INPUT</div>
+                            ${renderSection(componentData.input, 'input')}
+                        </div>
+                    `;
+
+                    const outputHtml = `
+                        <div class="output-section">
+                            <div class="section-title">📤 OUTPUT</div>
+                            ${renderSection(componentData.output, 'output')}
+                        </div>
+                    `;
+
+                    const metadataHtml = `
+                        <div class="metadata-section">
+                            <div class="section-title">ℹ️ METADATA</div>
+                            ${renderSection(componentData.metadata, 'metadata')}
+                        </div>
+                    `;
+
+                    const reasoningHtml = componentData.reasoning ? `
+                        <div class="reasoning-section">
+                            <div class="section-title">💡 REASONING</div>
+                            <div class="reasoning-text">${componentData.reasoning}</div>
+                        </div>
+                    ` : '';
+	console.log(componentName)
+                    return `
+                        <div class="component-section">
+                            <div class="component-section-title">🔧 ${componentData.component}</div>
+                            <div class="top-section">
+                                ${inputHtml}
+                                ${outputHtml}
+                            </div>
+                            ${metadataHtml}
+                            ${reasoningHtml}
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML = componentsHtml;
+                return;
+            }
+
+            // Single component view - show component name in header
+            const componentTitle = state.selectedComponent ? `
+                <div class="component-section-title" style="margin-bottom: 20px;">
+                    🔧 ${state.selectedComponent}
+                </div>
+            ` : '';
+
+            const inputHtml = `
+                <div class="input-section">
+                    <div class="section-title">📥 INPUT</div>
+                    ${renderSection(data.input, 'input')}
+                </div>
+            `;
+
+            const outputHtml = `
+                <div class="output-section">
+                    <div class="section-title">📤 OUTPUT</div>
+                    ${renderSection(data.output, 'output')}
+                </div>
+            `;
+
+            const metadataHtml = `
+                <div class="metadata-section">
+                    <div class="section-title">ℹ️ METADATA</div>
+                    ${renderSection(data.metadata, 'metadata')}
+                </div>
+            `;
+
+            const reasoningHtml = data.reasoning ? `
+                <div class="reasoning-section">
+                    <div class="section-title">💡 REASONING</div>
+                    <div class="reasoning-text">${data.reasoning}</div>
+                </div>
+            ` : '';
+
+            container.innerHTML = `
+                ${componentTitle}
+                <div class="top-section">
+                    ${inputHtml}
+                    ${outputHtml}
+                </div>
+                ${metadataHtml}
+                ${reasoningHtml}
+            `;
+        }
+
+        function showError(message) {
+            const container = document.getElementById('data-layout');
+            const errorHtml = `
+                <div style="background: #ffebee; color: #c62828; padding: 20px; border-radius: 8px; border-left: 4px solid #e53935; margin-bottom: 20px;">
+                    <strong>Error:</strong> ${message}
+                </div>
+            `;
+            container.innerHTML = errorHtml + container.innerHTML;
+        }
+
+        async function selectProject(projectName) {
+            state.selectedProject = projectName;
+            state.selectedComponent = null;
+            state.displayedData = null;
+            
+            renderProjects();
+            renderComponents();
+            renderDataDisplay();
+        }
+
+        async function selectComponent(componentName) {
+            state.selectedComponent = componentName;
+            state.displayedData = null;
+            
+            renderComponents();
+            renderDataDisplay();
+        }
+
+        async function loadData() {
+            const queryIdInput = document.getElementById('query-id-input');
+            const queryId = queryIdInput.value.trim();
+
+            if (!state.selectedProject) {
+                alert('Please select a project first');
+                return;
+            }
+
+            if (!state.selectedComponent) {
+                alert('Please select a component first');
+                return;
+            }
+
+            if (!queryId) {
+                alert('Please enter a Query ID');
+                return;
+            }
+
+            state.queryId = queryId;
+            await fetchComponentData(state.selectedProject, state.selectedComponent, queryId);
+        }
+
+        async function loadAllData() {
+            const queryIdInput = document.getElementById('query-id-input');
+            const queryId = queryIdInput.value.trim();
+
+            if (!state.selectedProject) {
+                alert('Please select a project first');
+                return;
+            }
+
+            if (!queryId) {
+                alert('Please enter a Query ID');
+                return;
+            }
+
+            state.queryId = queryId;
+            state.selectedComponent = null; // Clear component selection
+            renderComponents(); // Update component buttons
+            await fetchFullData(state.selectedProject, queryId);
+        }
+
+        async function loadWorkflow() {
+            if (!state.selectedProject) {
+                alert('Please select a project first');
+                return;
+            }
+            
+            await fetchWorkflow(state.selectedProject);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchProjects();
+            
+            // Add event listener for Get All Data button
+            document.getElementById('get-all-btn').addEventListener('click', loadAllData);
+            
+            // Add event listener for Load Workflow button
+            document.getElementById('load-workflow-btn').addEventListener('click', loadWorkflow);
+        });
+    </script>
+</body>
+</html>
