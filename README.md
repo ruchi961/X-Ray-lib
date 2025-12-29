@@ -1,4 +1,3 @@
-Vishnu deva
 # Consists of backend logic and running
 
 ## To run follow the instrcutions
@@ -164,36 +163,57 @@ ready to go
 > '.env'-> contains env for file 
 
 
-> 'check_main.py'-> 1st step implementation checks the main.json validate and create project folder with basic components schemas 
-> 'config_system_prompt.py' -> contains the system prompt for getting the configuration of key value of components for code given. 
+> 'check_main.py'-> 1st step implementation checks the main.json validate and create project folder with basic components schemas
+ 
+> 'config_system_prompt.py' -> contains the system prompt for getting the configuration of key value of components for code given.
+
 > 'create_graph.py' -> create the graph with nodes and edges
-> 'create_workflow.py' ->2nd step create the key value pairs for logging with llm+validate, else validate only 
+
+> 'create_workflow.py' ->2nd step create the key value pairs for logging with llm+validate, else validate only
+
 >  'Demo' -> Demo code just return dummy values
->  'democ_code' -> Democ code with implememnntation for llm call of key value pair s generation 
+ 
+>  'democ_code' -> Democ code with implememnntation for llm call of key value pair s generation
+
 > 'flask_server_main.py' -> main server for ui acces andlogging, does the reasoning with llm as well
+ 
 > 'llm_call.py' -> implemetation of gemini api but request can be automated to suit all paltforms but since i dint have keys of ther platform so this.
-> 'main.json'-> json file for compoennts to be included descirpiton 
-> 'main_data_file.json' -> keeps track of all projects main.json file 
+
+> 'main.json'-> json file for compoennts to be included descirpiton
+
+> 'main_data_file.json' -> keeps track of all projects main.json file
+ 
 > 'reasoning_system_prompt.py'-> for getting reasoning
+
 > 'requirements.txt' > requirements file
+
 > 'check_code.py' > check the code if it does really does logging mean sending requets to flask server with the required keys as per components schema
+
 
 * Frontend
 
->frontend.json -> UI created with JS fron function and logic handling, html for basic layour with cssfor style, add listeners, used fetch for request reposnse etc 
+>frontend.HTML -> UI created with JS fron function and logic handling, html for basic layour with cssfor style, add listeners, used fetch for request reposnse etc 
 
 # Logic and tradeoffs
 
 This section contains core conception, thinking, motivation, origin idea, why xyz was choosen, trade offs.
 
-Core conception:
-When I thought of solving the proble I thought we need something to find out the flow of business lofic means how componenst are executed how they interact etc, once that is known know where the main logic or evaluation is done meaning were main code gets executed and how decisions are made in that function, once that is known next to log these decisions,
+### Core conception:
+When I thought of solving the probleM I thought we need something to find out the flow of business lofic means how componenst are executed how they interact etc, once that is known know where the main logic or evaluation is done meaning were main code gets executed and how decisions are made in that function, once that is known next to log these decisions,
 so my pipeline focuses on the same.
 
 1.Create a json file -> this is where the develope can define his/her components involved, what is the system about the components
+
+
 2. Create another json file -> based on the above json create a new json file whcih has key value pairs that are to be logged, eg : input:{keyword:"",limit:""}, this can be done manually base like i/o metadat tags are already created project specific tagss or keys need to be updated can be done manually or by using llm, just set create_llm_config : yes in main.json above and this will be automated, also here a pictoric workflow is created based on workflow description from above 
+
+
 3. There is a need to check if actually logs are made, meaning if developer/autmated logs are made to code othervise nothing will be logged, so that too in check in original code by developer. 
+
+
 4. Next the flask server is satrted , this flask server is actually the one that logs, Why? because paltform independent logging now may the application be in any langauage vue js node js react python etc with simple reuest and resposne the messages are logged to indivudal project folder and componenets
+
+
 5. To vizualize this an ui is made where query+all components can be seen or Query+specific ocmponent can be seen 
 
 
